@@ -35,15 +35,15 @@ class MainWindow(QWidget):
         self.show()
 
     def setUpMainWindow(self):
-        main_label = QLabel("Push the button for filling a new template")
+        main_label = QLabel("Push the button to fill a new template")
         select_file_button = QPushButton("1. Select files")
         select_file_button.clicked.connect(self.openFileSelectionDialog)
 
-        second_label = QLabel("Push the button for selecting workbook columns")
+        second_label = QLabel("Push the button to select data columns")
         select_col_btn = QPushButton("2. Select columns")
         select_col_btn.clicked.connect(self.openColumnSelectionDialog)
 
-        third_label = QLabel("Push the button to start creating documents.")
+        third_label = QLabel("Push the button to start creating documents")
         start_btn = QPushButton("3. Start")
         start_btn.clicked.connect(self.startDocumentGeneration)
 
