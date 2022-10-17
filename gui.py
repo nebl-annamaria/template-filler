@@ -43,7 +43,7 @@ class MainWindow(QWidget):
         select_col_btn = QPushButton("2. Select columns")
         select_col_btn.clicked.connect(self.openColumnSelectionDialog)
 
-        third_label = QLabel("Push the button to start creating documnets.")
+        third_label = QLabel("Push the button to start creating documents.")
         start_btn = QPushButton("3. Start")
         start_btn.clicked.connect(self.startDocumentGeneration)
 
