@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
     QFormLayout,
     QLineEdit,
     QStackedLayout,
+    QCheckBox,
 )
 
 from PyQt6.QtGui import QIntValidator
@@ -26,7 +27,7 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__(parent=None)
         self.controller = Controller()
-        self.template_filler_initialized = False
+        self.merge = False
         self.initializeUI()
 
     def initializeUI(self):
@@ -46,6 +47,9 @@ class MainWindow(QWidget):
         third_label = QLabel("Push the button to start creating documents")
         start_btn = QPushButton("3. Start")
         start_btn.clicked.connect(self.startDocumentGeneration)
+        merger_label = QLabel("Combine PDF files")
+        merger_checkbox = QCheckBox("combine pdf files")
+        merger_checkbox.stateChanged.connect(self.onCheckboxStateChange)
 
         self.pg1 = QVBoxLayout()
         self.pg1.addWidget(main_label)
@@ -61,6 +65,7 @@ class MainWindow(QWidget):
 
         self.pg3 = QVBoxLayout()
         self.pg3.addWidget(third_label)
+        self.pg3.addWidget(merger_checkbox)
         self.pg3.addWidget(start_btn)
         self.pg3_container = QWidget()
         self.pg3_container.setLayout(self.pg3)
@@ -85,6 +90,9 @@ class MainWindow(QWidget):
     def openColumnSelectionDialog(self):
         self.column_selection_dialog = ColumnSelectionDialog(self)
         self.column_selection_dialog.show()
+
+    def onCheckboxStateChange(self):
+        self.controller.set_merger_state(self.sender().isChecked())
 
     def startDocumentGeneration(self):
         self.controller.start_document_creation()

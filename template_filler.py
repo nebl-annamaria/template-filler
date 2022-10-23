@@ -1,7 +1,6 @@
 import glob, os
 
-from openpyxl import load_workbook
-from docx import Document
+from PyPDF2 import PdfFileMerger
 from docxtpl import DocxTemplate
 from docx2pdf import convert
 import pandas as pd
@@ -18,6 +17,7 @@ class TemplateFiller:
         self.columns = self.__list_columns()
         self.__column_dict = None
         self.__render_dict = None
+        self.__merger = False
 
     def __open_template(self):
         template = DocxTemplate(self.__template_path)
@@ -53,6 +53,9 @@ class TemplateFiller:
 
         self.__render_dict = dict
 
+    def set_merger_state(self, state):
+        self.__merger = state
+
     def create_documents(self):
         self.__build_render_dict()
         template = self.__template
@@ -68,3 +71,15 @@ class TemplateFiller:
             os.chmod(filename, 0o777)
             convert(filename, f"{render_dict['name']}.pdf")
         os.remove(filename)
+        if self.__merger == True:
+            self.merge_pdfs()
+
+    def merge_pdfs(self):
+        merger = PdfFileMerger()
+        pdfs = sorted([file for file in glob.glob("*.pdf")])
+        for pdf in pdfs:
+            merger.append(pdf)
+        merger.write("merged.pdf")
+        merger.close()
+        for file in pdfs:
+            os.remove(file)

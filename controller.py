@@ -32,5 +32,8 @@ class Controller:
     def set_column_dict(self, dict):
         self.__template_filler.set_column_dict(dict)
 
+    def set_merger_state(self, state):
+        self.__template_filler.set_merger_state(state)
+
     def start_document_creation(self):
         self.__template_filler.create_documents()
